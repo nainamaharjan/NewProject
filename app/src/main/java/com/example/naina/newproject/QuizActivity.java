@@ -19,6 +19,7 @@ public class QuizActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHEAT =0;
     public static boolean mIsCheater;
     private int cheatCount= 0;
+    private TextView countQuestion;
 
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_australia, true),
@@ -26,7 +27,7 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_mideast, false),
             new Question(R.string.question_africa, false),
             new Question(R.string.question_americas, true),
-            new Question(R.string.question_asia, true),
+            new Question(R.string.question_asia, true)
     };
     private int mCurrentIndex = 0;
 
@@ -45,6 +46,11 @@ public class QuizActivity extends AppCompatActivity {
         mTrueButton = findViewById(R.id.true_button);
         mNextButton = findViewById(R.id.next_button);
         mPrevButton = findViewById(R.id.prev_button);
+
+        countQuestion=findViewById(R.id.count_question);
+//        countQuestion.setText((mCurrentIndex+1)+"/"+ (mQuestionBank.length));
+        setCountQuestion();
+
         showResultBtn = findViewById(R.id.show_result_btn);
         showResultBtn.setOnClickListener(
                 new View.OnClickListener() {
@@ -92,11 +98,10 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                setCountQuestion();
+//                countQuestion.setText((mCurrentIndex+1)+"/"+ (mQuestionBank.length));
+
                 cheatStatusCheck();
-
-
-
-
                 if (mCurrentIndex == (mQuestionBank.length-1))
                 {
                     showResultBtn.setVisibility(View.VISIBLE);
@@ -120,13 +125,15 @@ public class QuizActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        cheatStatusCheck();
                         mCurrentIndex = (mCurrentIndex - 1) < 0 ? 0 : mCurrentIndex - 1;
+                        setCountQuestion();
+//                        countQuestion.setText((mCurrentIndex+1)+"/"+ (mQuestionBank.length));
+
+                        cheatStatusCheck();
                         int question = mQuestionBank[mCurrentIndex].getmTextResId();
                         mQuestionTextView.setText(question);
                         if(mCurrentIndex==0){
                            mPrevButton.setVisibility(View.GONE);
-
 
                         }else{
                             mNextButton.setVisibility(View.VISIBLE);
@@ -167,7 +174,9 @@ public class QuizActivity extends AppCompatActivity {
 
 //        Log.d("TAG",userHasCheated  +"");
 
+
     }
+
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -228,5 +237,10 @@ public class QuizActivity extends AppCompatActivity {
         }
 
     }
+    private void setCountQuestion(){
+        countQuestion.setText((mCurrentIndex+1) + "/" + (mQuestionBank.length));
+    }
+
 
 }
+
