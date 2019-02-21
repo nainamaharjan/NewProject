@@ -4,6 +4,18 @@ public class Question {
     private int mTextResId;
     private boolean mAnswerTrue;
     public boolean isAnswered,chosenCorrectAnswer;
+    public boolean userHasCheated;
+
+
+    public Question(int mTextResId) {
+        this.mTextResId = mTextResId;
+    }
+
+    public boolean isUserHasCheated() {
+        return userHasCheated;
+    }
+
+
 
 
     public Question(int textResId, boolean answerTrue) {
